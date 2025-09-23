@@ -15,8 +15,11 @@ class Console
         Console();
         
         void run();
+        void setup();
 
         char getKey();
+
+        void bip();
 
         void turnOnBacklight();
         void turnOffBacklight();
@@ -27,8 +30,8 @@ class Console
         Buzzer buzzer;
         
 
-        bool blacklight_state;
-        int current_window;
+        bool blacklight_state = true;
+        int current_window = 0;
 
         char password[5];
 
