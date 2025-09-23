@@ -6,14 +6,14 @@ Console console;
 
 void setup() {
     Logs::init();
-    console.bip();
 }
 
 void loop() {
     console.run();
-     char key = console.getKey();
-     if(key)
-     {
-         Logs::log(String(key));
-     }
+    char key = console.getKey();
+    
+    if(key)
+    {
+        Logs::log(String(key));
+    }
 }

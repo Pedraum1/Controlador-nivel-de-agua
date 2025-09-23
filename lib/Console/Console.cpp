@@ -18,7 +18,8 @@ byte colPins[COLS] = {5, 4, 3, 2};
 
 Console::Console()
     : display(0x27, 16, 2),
-      keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS)
+      keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS),
+      buzzer(12, 1000)
 {
     this->current_window = 0;
 }
@@ -54,29 +55,8 @@ void Console::returnToStartMenu()
 char Console::getKey()
 {
     char key = this->keypad.getKey();
-    if(key) this->bip();
+    if(key) this->buzzer.bip();
     return key;
-}
-
-//=================BUZZER==========================
-
-void Console::bip(int frequency)
-{
-    tone(this->buzzer_pin, frequency, 50);
-    delay(50);
-}
-
-void Console::goodBip()
-{
-    bip(this->buzzer_tone);
-    bip(2*this->buzzer_tone);
-    bip(2.5*this->buzzer_tone);
-}
-
-void Console::badBip()
-{
-    bip(2*this->buzzer_tone);
-    bip(this->buzzer_tone);
 }
 
 //=================LCD==========================
