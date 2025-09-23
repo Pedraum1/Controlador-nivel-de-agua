@@ -14,6 +14,6 @@ void Logs::log(String message)
 
 void Logs::error(String message)
 {
-    Serial.print("!!ERROR: ");
+    Serial.print("!ERR: ");
     Serial.println(message);
 }
