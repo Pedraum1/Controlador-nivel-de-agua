@@ -16,7 +16,7 @@ byte colPins[4] = {5, 4, 3, 2};
 Console::Console()
     : display(0x27, 16, 2),
       keypad(makeKeymap(keys), rowPins, colPins, 4, 4),
-      buzzer(12, 1000)
+      buzzer(12, 1000, 10)
 {
     this->current_window = 0;
     this->blacklight_state = true;
@@ -26,9 +26,12 @@ void Console::setup()
 {
     this->display.init();
     this->display.backlight();
+    this->buzzer.setup();
 
     char password[4] = {'1', '2', '3', '4'};
     this->copyPasswordToObject(password);
+
+    this->buzzer.goodBip();
 }
 
 void Console::run()

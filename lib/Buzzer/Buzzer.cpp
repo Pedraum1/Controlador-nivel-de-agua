@@ -1,9 +1,16 @@
 #include "Buzzer.hpp"
 
-Buzzer::Buzzer(int pin, int base_frequency)
+Buzzer::Buzzer(int pin, int base_frequency, int led_pin)
 {
     this->pin = pin;
     this->frequency = base_frequency;
+    this->led_pin = led_pin;
+}
+
+void Buzzer::setup()
+{
+    pinMode(this->pin, OUTPUT);
+    pinMode(this->led_pin, OUTPUT);
 }
 
 void Buzzer::bip(int note)
@@ -14,7 +21,11 @@ void Buzzer::bip(int note)
     }
 
 
-    tone(this->pin, note, 50);
+    tone(this->pin, note);
+    digitalWrite(this->led_pin, HIGH);
+    delay(50);
+    digitalWrite(this->led_pin, LOW);
+    noTone(this->pin);
     delay(50);
 }
 
