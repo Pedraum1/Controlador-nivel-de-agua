@@ -92,6 +92,10 @@ void Console::routeToMenu(char option)
             this->current_window = ManualControl;
         break;
 
+        case 'D':
+            this->exit();
+        break;
+
         default:
             this->returnToStartMenu();
         break;
@@ -108,37 +112,59 @@ void Console::runLoginWindow()
     this->display.setCursor(0, 1);
     this->display.print("____");
 
-    unsigned long last_time = millis();
-    unsigned long current_time = millis();
+    char inserted_password[4] = {EMPTY_CHAR, EMPTY_CHAR, EMPTY_CHAR, EMPTY_CHAR};
 
-    bool show_digit  = true;
+    int position = 0;
 
-    this->display.setCursor(0, 1);
+
+    this->display.setCursor(position, 1);
 
     while(true)
     {
-        char key = this->getKey();
-        if(this->menuOptionDetected(key))
-        {
-            this->routeToMenu(key);
-            return;
-        }
+        this->display.setCursor(0, 1);
 
-        current_time = millis();
-        if(current_time - last_time >= 1000)
+        for(int i = 0; i < 4; i++)
         {
-            last_time = current_time;
-            show_digit = !show_digit;
-            if(show_digit){
-                this->display.setCursor(0, 1);
-                this->display.print("_");
+            if(inserted_password[i] != EMPTY_CHAR)
+            {
+                this->display.print('*');
             } else {
-                this->display.setCursor(0, 1);
-                this->display.print(" ");
-            };
+                this->display.print('_');
+            }
         }
 
-        //TODO: INSERIR CÓDIGO DO MENU DE LOGIN
+        char key = this->getKey();
+
+        if(key){
+            Logs::log("Posicao: " + String(position));
+
+            if(key == '#' || position == 4)
+            {
+                Logs::log("ENTER");
+                if(this->verifyPassword(inserted_password)){
+                    Logs::log("SENHA CORRETA");
+                    this->buzzer.goodBip();
+                    this->routeToMenu('A');
+                    return;
+                } else {
+                    Logs::log("SENHA INCORRETA");
+                    this->buzzer.badBip();
+                    position = 0;
+                    Logs::log("SENHA INSERIDA: ");
+                    for(int i = 0; i < 4; i++)
+                    {
+                        Logs::log(String(inserted_password[i]));
+                        inserted_password[i] = EMPTY_CHAR;
+                    }
+                }
+
+            } else {
+                Logs::log("INSERINDO CARACTERE '" + String(key) + "' NA POSICAO " + String(position));
+                inserted_password[position] = key;
+                Logs::log("SENHA INSERIDA ATUAL: " + String(inserted_password[0]) + String(inserted_password[1]) + String(inserted_password[2]) + String(inserted_password[3]) );
+                position++;
+            }
+        }
 
     }
 }
@@ -207,6 +233,11 @@ void Console::returnToStartMenu()
     this->current_window = 1;
 }
 
+void Console::exit()
+{
+    this->current_window = 0;
+}
+
 //=================BUZZER==========================
 
 void Console::bip()
@@ -259,4 +290,13 @@ void Console::copyPasswordToObject(char password[4])
     {
         this->password[i] = password[i];
     }
+}
+
+bool Console::verifyPassword(char password[4])
+{
+    for(int i = 0; i < 4; i++)
+    {
+        if(this->password[i] != password[i]) return false;
+    }
+    return true;
 }

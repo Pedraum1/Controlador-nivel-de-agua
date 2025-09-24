@@ -47,11 +47,13 @@ class Console
         void runSetupMenu();
         void runManualControlMenu();
         void returnToStartMenu();
+        void exit();
 
         bool menuOptionDetected(char key_pressed);
         void routeToMenu(char option);
 
         void copyPasswordToObject(char password[4]);
+        bool verifyPassword(char password[4]);
 
         void clearLCD();
 
