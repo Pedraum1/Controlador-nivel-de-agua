@@ -9,6 +9,13 @@
 
 #define EMPTY_CHAR '\0'
 
+enum Menus {
+    Login,
+    Main,
+    Setup,
+    ManualControl
+};
+
 class Console
 {
     public:
@@ -33,12 +40,18 @@ class Console
         bool blacklight_state = true;
         int current_window = 0;
 
-        char password[5];
+        char password[4];
 
-        void startMenu();
         void runLoginWindow();
-        void setupLimit();
+        void runStartMenu();
+        void runSetupMenu();
+        void runManualControlMenu();
         void returnToStartMenu();
+
+        bool menuOptionDetected(char key_pressed);
+        void routeToMenu(char option);
+
+        void copyPasswordToObject(char password[4]);
 
         void clearLCD();
 
