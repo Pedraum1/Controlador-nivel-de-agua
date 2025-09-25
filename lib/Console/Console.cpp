@@ -174,6 +174,13 @@ void Console::runStartMenu()
     this->clearLCD();
     this->display.setCursor(0, 0);
     this->display.print("Menu inicial");
+    delay(500);
+
+    unsigned int volume = 100;
+    bool bomba_ativa = false;
+
+    this->clearLCD();
+
     while(true)
     {
         char key = this->getKey();
@@ -183,7 +190,15 @@ void Console::runStartMenu()
             return;
         }
 
-        //TODO: INSERIR CÓDIGO DO MENU INICIAL
+        //TODO: INSERIR ATUALIZAÇÃO DOS DADOS AQUI
+
+        this->display.setCursor(0, 0);
+        this->display.print("Volume:");
+        this->display.print(volume);
+        this->display.print("/500 L");
+
+        this->display.setCursor(0, 1);
+        this->display.print("Bomba: " + String(bomba_ativa ? "Ligada   " : "Desligada"));
 
     }
 }
