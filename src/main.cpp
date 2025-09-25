@@ -1,6 +1,7 @@
 #include <Arduino.h>
-#include "Logs.hpp"
 #include "Console.hpp"
+
+#include "Logs.hpp"
 
 Console console;
 

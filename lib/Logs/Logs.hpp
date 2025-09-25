@@ -4,6 +4,13 @@
 
 #include <Arduino.h>
 
+enum Envs {
+    PRODUCTION,
+    DEVELOPMENT
+};
+
+#define ENV PRODUCTION
+
 class Logs
 {
     public:
